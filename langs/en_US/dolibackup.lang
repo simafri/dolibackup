@@ -1,0 +1,23 @@
+# Module label 'ModuleDolibackupName'
+ModuleDolibackupName = Dolibackup
+# Module description 'ModuleDolibackupDesc'
+ModuleDolibackupDesc = Module Dolibackup
+FrequenceBackup = Backups created every X days
+HeureLancement =  Start time of the backup launch
+ServeurFTP = FTP Host
+UtilisateurFTP = FTP User
+MotdepasseFTP = FTP Password
+DelaideRetention = Retention time for backups
+EmailsEchec = List of emails receiving notification in case of failure (separated by comma)
+DolibackupSetup = Configuration of the backup module
+Dolibackup = External backups by Dolibackup
+DolibackupControl = Control of Dolibackup backups
+ErrorCompressingFolder = Error compressiong the folder %s: folder does not exist or is not accessible
+ErrorCompressingFile = Error compressiong the file %s
+ErrorDatabase = Error Backup Database : %s
+FTPConnectionError = Error when sending the backup via FTP: Server connection problem
+FTPAuthentificationError = Error when sending the backup via FTP: Server authentication problem
+FTPFileTransferError = Error when sending the backup via FTP: Problem sending the file
+FTPDeleteFilesError = Backup sent but error when deleting %s file on FTP server
+BackupError =  Backup errors on %s for the install %s
+BackupErrorDescription = Description of the error :
