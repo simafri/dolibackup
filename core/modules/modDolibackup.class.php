@@ -56,11 +56,11 @@ class modDolibackup extends DolibarrModules
 		$this->config_page_url = array("admin.php@dolibackup");
 
 		$this->hidden = false;			
-		$this->depends = array();		
+		$this->depends = array("modCron");		
 		$this->requiredby = array();	
 		$this->conflictwith = array();
 		$this->langfiles = array("dolibackup@dolibackup");
-		$this->need_dolibarr_version = array(4,0);
+		$this->need_dolibarr_version = array(9,0);
 		$this->warnings_activation = array();			
 		$this->warnings_activation_ext = array();	
 		$this->editor_name = 'Simafri';
