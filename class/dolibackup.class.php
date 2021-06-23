@@ -167,8 +167,11 @@ class Dolibackup
 		// Compression of dolibarr_main_document_root
     	if (!$errormsg) $errormsg .= $this->zipDir($dolibarr_main_document_root, $file_zip);
  		
- 		// Compression of dolibarr_main_document_root
-    	if (!$errormsg) $errormsg .= $this->zipDir($dolibarr_main_document_root.'/../scripts', $file_zip);
+ 		// Compression of scripts folder
+ 		if (file_exists($dolibarr_main_data_root.'/../scripts') && !$errormsg){
+ 			$errormsg .= $this->zipDir($dolibarr_main_data_root.'/../scripts', $file_zip);
+ 		}
+    	
     	
     	// Compression of dolibarr_main_data_root
 		if (!$errormsg) $errormsg .= $this->zipDir($dolibarr_main_data_root, $file_zip);
