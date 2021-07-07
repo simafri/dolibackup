@@ -228,7 +228,7 @@ class Dolibackup
 			usort($contents_date, "date_sort");
 			//Delete the backup of files if there is more than 15
 			for ($i = 0; $i < count($contents_date) - 15 ; $i++){
-				$content_to_delete = './'.$install_name.'-'.$contents_date[$i].'.zip';
+				$content_to_delete = $install_name.'-'.$contents_date[$i].'.zip';
 				if (in_array($content_to_delete, $contents)){
 					$result_delete = ftp_delete($conn_id,$content_to_delete);
 	            	if (!$result_delete) {
