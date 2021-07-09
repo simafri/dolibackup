@@ -194,7 +194,6 @@ class Dolibackup
 		}
 		//Authenticate to the server
 		if (!$errormsg){
-			ftp_pasv($conn_id, true);
 			$login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass);
 			if (!$login_result) {
 				$errormsg .=  $langs->trans("FTPAuthentificationError")."\n";
@@ -202,6 +201,7 @@ class Dolibackup
 		}
 		// Transfer of the backup file
 		if (!$errormsg){
+			ftp_pasv($conn_id, true);
 			$result_ftp = ftp_put($conn_id, $remote_file, $file, FTP_BINARY);
 			if (!$result_ftp) {
 				$errormsg .= $langs->trans("FTPFileTransferError")."\n";
