@@ -30,10 +30,10 @@ class Dolibackup
 		$langs->load("dolibackup@dolibackup");
 		$handle = opendir($folder);
 		$install_name= str_replace("https://", "",$dolibarr_main_url_root);
-	    $install_name= str_replace("http://", "",$install_name);
+		$install_name= str_replace("http://", "",$install_name);
 		if (!$handle){
-	    	return $langs->trans("ErrorCompressingFolder",$folder)."\n";
-	    }
+			return $langs->trans("ErrorCompressingFolder",$folder)."\n";
+		}
 		while (false !== $f = readdir($handle)) {
 			if ($f != '.' && $f != '..' && $f != 'backup-'.$install_name.strftime("%Y%m%d")) {
 				$filePath = "$folder/$f";
@@ -43,8 +43,8 @@ class Dolibackup
 					$ok = $zipFile->addFile($filePath, $localPath);
 
 					if (! $ok){
-	                	$errors .= $langs->trans("ErrorCompressingFile",$filePath)."\n";
-	                }
+						$errors .= $langs->trans("ErrorCompressingFile",$filePath)."\n";
+					}
 				} elseif (is_dir($filePath)) {
 					// Add sub-directory.
 					$zipFile->addEmptyDir($localPath);
@@ -54,8 +54,8 @@ class Dolibackup
 		}
 		closedir($handle);
 		if ($errors){
-	    	return $errors;
-	    }
+			return $errors;
+		}
 	}
 
 	/**
@@ -83,8 +83,8 @@ class Dolibackup
 		else {
 			$ok =  $z->addFile($sourcePath,$file_name);
 			if (! $ok){
-            	$result .= $langs->trans("ErrorCompressingFile",$sourcePath)."\n";
-            }
+				$result .= $langs->trans("ErrorCompressingFile",$sourcePath)."\n";
+			}
 		}
 		
 		$z->close();
@@ -144,42 +144,42 @@ class Dolibackup
 		$install_name= str_replace("https://", "",$dolibarr_main_url_root);
 		$install_name= str_replace("http://", "",$install_name);
 		//create a folder to contain the backup
-    	$backup_folder =  DOL_DATA_ROOT.'/dolibackup/backup-'.$install_name.strftime("%Y%m%d");
-    	dol_mkdir($backup_folder);
-    	dol_include_once('/dolibackup/mysqldump-php/src/Ifsnop/Mysqldump/Mysqldump.php');
+		$backup_folder =  DOL_DATA_ROOT.'/dolibackup/backup-'.$install_name.strftime("%Y%m%d");
+		dol_mkdir($backup_folder);
+		dol_include_once('/dolibackup/mysqldump-php/src/Ifsnop/Mysqldump/Mysqldump.php');
 
-    	// Connect to the database using Mysqldump
-    	$dump = new Ifsnop\Mysqldump\Mysqldump('mysql:host='.$dolibarr_main_db_host.';dbname='.$dolibarr_main_db_name, $dolibarr_main_db_user,$dolibarr_main_db_pass);
-    	// Dump the database
-    	try {
-    		$dump->start($backup_folder.'/dump.sql');
-    	} catch (Exception $e) {
-   			$errormsg .= $langs->trans("ErrorDatabase",$e->getMessage()). "\n";
+		// Connect to the database using Mysqldump
+		$dump = new Ifsnop\Mysqldump\Mysqldump('mysql:host='.$dolibarr_main_db_host.';dbname='.$dolibarr_main_db_name, $dolibarr_main_db_user,$dolibarr_main_db_pass);
+		// Dump the database
+		try {
+			$dump->start($backup_folder.'/dump.sql');
+		} catch (Exception $e) {
+			$errormsg .= $langs->trans("ErrorDatabase",$e->getMessage()). "\n";
 		}
 
 		//COPY AND COMPRESSION OF DUMP FILE, DOLIBARR FILES, DOCUMENTS FOLDER AND SCRIPT FOLDER TO FOLDERS TO BE ARCHIVED
 
-    	$file_zip = $backup_folder.'/'.$install_name.'-'.strftime("%Y%m%d").'.zip';
-    	// Compression of the sql dump file
-    	if (!$errormsg) $errormsg .= $this->zipDir($backup_folder.'/dump.sql', $file_zip, 'dump.sql');
+		$file_zip = $backup_folder.'/'.$install_name.'-'.strftime("%Y%m%d").'.zip';
+		// Compression of the sql dump file
+		if (!$errormsg) $errormsg .= $this->zipDir($backup_folder.'/dump.sql', $file_zip, 'dump.sql');
 		unlink($backup_folder.'/dump.sql');
 
 		// Compression of dolibarr_main_document_root
-    	if (!$errormsg) $errormsg .= $this->zipDir($dolibarr_main_document_root, $file_zip);
- 		
- 		// Compression of scripts folder
- 		if (file_exists($dolibarr_main_document_root.'/../scripts') && !$errormsg){
- 			$errormsg .= $this->zipDir($dolibarr_main_document_root.'/../scripts', $file_zip);
- 		}
- 		else if (file_exists($dolibarr_main_data_root.'/../scripts') && !$errormsg){
- 			$errormsg .= $this->zipDir($dolibarr_main_data_root.'/../scripts', $file_zip);
- 		}
+		if (!$errormsg) $errormsg .= $this->zipDir($dolibarr_main_document_root, $file_zip);
+		
+		// Compression of scripts folder
+		if (file_exists($dolibarr_main_document_root.'/../scripts') && !$errormsg){
+			$errormsg .= $this->zipDir($dolibarr_main_document_root.'/../scripts', $file_zip);
+		}
+		else if (file_exists($dolibarr_main_data_root.'/../scripts') && !$errormsg){
+			$errormsg .= $this->zipDir($dolibarr_main_data_root.'/../scripts', $file_zip);
+		}
 
-    	// Compression of dolibarr_main_data_root
+		// Compression of dolibarr_main_data_root
 		if (!$errormsg) $errormsg .= $this->zipDir($dolibarr_main_data_root, $file_zip);
 		
-    	// FTP Credentials
-	    $ftp_server=$conf->global->SERVEUR_FTP;
+		// FTP Credentials
+		$ftp_server=$conf->global->SERVEUR_FTP;
 		$ftp_user_name=$conf->global->UTILISATEUR_FTP;
 		$ftp_user_pass=$conf->global->MOT_DE_PASSE_FTP;
 		$file = $file_zip;//tobe uploaded
@@ -216,14 +216,14 @@ class Dolibackup
 			//$contents_date will trim the names of the files to get the last part that contains the date of the backup so we can sort them
 			$contents_date = array();
 			foreach($contents as $content) 
-	        {
-	        	if (substr($content,-12,-4)){
-	        		$contents_date [] = substr($content,-12,-4);
-	        	}
-	        	
-	        }
+			{
+				if (substr($content,-12,-4)){
+					$contents_date [] = substr($content,-12,-4);
+				}
+				
+			}
 			function date_sort($a, $b) {
-			    return strtotime($a) - strtotime($b);
+				return strtotime($a) - strtotime($b);
 			}
 			// sort $contents_date
 			usort($contents_date, "date_sort");
@@ -232,7 +232,7 @@ class Dolibackup
 				$content_to_delete = $install_name.'-'.$contents_date[$i].'.zip';
 				if (in_array($content_to_delete, $contents)){
 					$result_delete = ftp_delete($conn_id,$content_to_delete);
-	            	if (!$result_delete) {
+					if (!$result_delete) {
 						$errormsg .= $langs->trans("FTPDeleteFilesError",$content_to_delete)."\n";
 					}
 				} 
@@ -252,26 +252,26 @@ class Dolibackup
 		
 		// Delete the local zip file
 		unlink($file_zip);
-        
+		
 		$this->error = $errormsg;
 
 		// Send error messages to the addresses on $conf->global->EMAILS_ECHEC
 		if ($errormsg){
 			require_once DOL_DOCUMENT_ROOT.'/core/class/CMailFile.class.php';
 			$mailfile = new CMailFile(
-	            $langs->trans("BackupError",strftime("%d/%m/%Y"),$install_name),
-	            $conf->global->EMAILS_ECHEC,
-	            'Backups Dolibackups <noreply@dolibackup.com>',
-	           	$langs->trans("BackupErrorDescription").$errormsg,
-	            array(),
-	            array(),
-	            array(),
-	            '',
-	            '',
-	            0,
-	            1
-        	);
-        	$mailfile->sendfile();
+				$langs->trans("BackupError",strftime("%d/%m/%Y"),$install_name),
+				$conf->global->EMAILS_ECHEC,
+				'Backups Dolibackups <noreply@dolibackup.com>',
+				$langs->trans("BackupErrorDescription").$errormsg,
+				array(),
+				array(),
+				array(),
+				'',
+				'',
+				0,
+				1
+			);
+			$mailfile->sendfile();
 		}
 
 		
