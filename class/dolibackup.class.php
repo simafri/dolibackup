@@ -143,6 +143,7 @@ class Dolibackup
 		// remove https or http to install name
 		$install_name= str_replace("https://", "",$dolibarr_main_url_root);
 		$install_name= str_replace("http://", "",$install_name);
+		$install_name= str_replace("/", "",$install_name);
 		//create a folder to contain the backup
 		$backup_folder =  DOL_DATA_ROOT.'/dolibackup/backup-'.$install_name.strftime("%Y%m%d");
 		dol_mkdir($backup_folder);
